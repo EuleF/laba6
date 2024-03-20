@@ -17,7 +17,7 @@ public:
 
 public:
     node(japanise *data) {
-        datan = new japanisen;
+        this->datan = new japanisen;
         this->datan->namen = data->name;
         this->datan->componentsn = data->components;
         this->datan->costn = data->cost;
@@ -160,19 +160,29 @@ public:
         node *left1 = ptr1->prev;
         node *right2 = ptr2->next;
         node *left2 = ptr2->prev;
+        node *dupptr1 = ptr1;
+        node *dupptr2 = ptr2;
 
-        ptr1->next = right2;
-        ptr2->prev = left1;
+        ptr1->next = ptr2->next;
+        ptr2->prev = ptr1->prev;
 
-        if (ptr2 == head)
+        if (dupptr2 == head)
             head = ptr1;
-        if (ptr1 == tail)
+        if (dupptr1 == tail)
             tail = ptr2;
 
-        if (index1 + 1 == index2) {
+        if (right1 == ptr2) {
+            if (left1 != nullptr)
+                left1->next = ptr2;
+            if (right2 != nullptr)
+                right2->prev = ptr1;
             ptr1->prev = ptr2;
             ptr2->next = ptr1;
         } else {
+            if (right2 != nullptr)
+                right2->prev = ptr1;
+            if (left1 != nullptr)
+                left1->next = ptr2;
             right1->prev = ptr2;
             left2->next = ptr1;
             ptr1->prev = left2;
